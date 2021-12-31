@@ -300,6 +300,25 @@ else ifeq ($(platform), qnx)
 	LIBPTHREAD :=
 	LIBDL :=
 	LIBM :=
+else ifeq ($(platform), gcce)
+	EXT=a
+	TARGET := $(TARGET_NAME)_libretro_$(platform).$(EXT)
+	CC = arm-none-symbianelf-gcc$(EXE_EXT)
+	CXX = arm-none-symbianelf-gcc$(EXE_EXT)
+	CC_AS = arm-none-symbianelf-gcc$(EXE_EXT)
+	AR = arm-none-symbianelf-ar$(EXE_EXT)
+#	PLATFORM_DEFINES +=
+#        DYNAREC = 0
+ifeq ($(DYNAREC),lightrec)
+        # Override
+        DYNAREC := 0
+endif
+	THREAD_RENDERING := 0
+	BUILTIN_GPU = peops
+        ARCH = arm
+        HAVE_NEON = 0
+        STATIC_LINKING = 1
+	CFLAGS += -DNO_vsnprintf
 
 #Raspberry Pi 1
 else ifeq ($(platform), rpi1)

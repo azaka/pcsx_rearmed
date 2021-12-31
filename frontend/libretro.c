@@ -293,6 +293,21 @@ out:
    vout_fb_dirty = 1;
    pl_rearmed_cbs.flip_cnt++;
 }
+#ifdef __GCCE__
+void *pl_gcce_mmap(unsigned long addr, size_t size, int is_fixed,
+    enum psxMapTag tag)
+{
+   (void)tag;
+   return malloc(size);
+	
+}
+void pl_gcce_munmap(void *ptr, size_t size, enum psxMapTag tag)
+{
+   (void)tag;
+   free(ptr);
+	
+}
+#endif
 
 #ifdef _3DS
 typedef struct
@@ -2775,6 +2790,10 @@ void retro_init(void)
       abort();
    psxMapHook = pl_vita_mmap;
    psxUnmapHook = pl_vita_munmap;
+#endif
+#ifdef __GCCE__
+   psxMapHook = pl_gcce_mmap;
+   psxUnmapHook = pl_gcce_munmap;
 #endif
    ret = emu_core_preinit();
 #ifdef _3DS

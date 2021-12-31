@@ -40,7 +40,7 @@
 #endif
 
 boolean writeok = TRUE;
-
+#define MAP_ANON 0
 #ifndef NDEBUG
 #include "debug.h"
 #else
