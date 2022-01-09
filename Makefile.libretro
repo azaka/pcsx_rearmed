@@ -308,17 +308,15 @@ else ifeq ($(platform), gcce)
 	CC_AS = arm-none-symbianelf-gcc$(EXE_EXT)
 	AR = arm-none-symbianelf-ar$(EXE_EXT)
 #	PLATFORM_DEFINES +=
-#        DYNAREC = 0
-ifeq ($(DYNAREC),lightrec)
-        # Override
-        DYNAREC := 0
-endif
-	THREAD_RENDERING := 0
-	BUILTIN_GPU = peops
+        DYNAREC := ari64
+
+	THREAD_RENDERING := 1
+	BUILTIN_GPU = unai
         ARCH = arm
         HAVE_NEON = 0
         STATIC_LINKING = 1
 	CFLAGS += -DNO_vsnprintf
+	CFLAGS += -DTHREAD_ENABLED -DGPU_UNAI_USE_FLOATMATH -DGPU_UNAI_USE_FLOAT_DIV_MULTINV
 
 #Raspberry Pi 1
 else ifeq ($(platform), rpi1)

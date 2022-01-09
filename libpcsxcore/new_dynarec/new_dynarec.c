@@ -395,6 +395,8 @@ static void end_tcache_write(void *start, void *end)
   // as of 2021, __clear_cache() is still broken on arm64
   // so here is a custom one :(
   clear_cache_arm64(start, end);
+  #elif defined(__GCCE__)
+  gcce_flush_icache_section(start, end);
   #else
   __clear_cache(start, end);
   #endif
@@ -6857,6 +6859,8 @@ void new_dynarec_init(void)
   #elif defined(_MSC_VER)
   ndrc = VirtualAlloc(NULL, sizeof(*ndrc), MEM_COMMIT | MEM_RESERVE,
     PAGE_EXECUTE_READWRITE);
+  #elif defined(__GCCE__)
+  ndrc = gcce_allocate_executable_memory(sizeof(*ndrc));
   #else
   uintptr_t desired_addr = 0;
   #ifdef __ELF__

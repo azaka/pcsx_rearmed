@@ -401,6 +401,9 @@ static void genimm_checked(u_int imm,u_int *encoded)
 static u_int genjmp(u_int addr)
 {
   if (addr < 3) return 0; // a branch that will be patched later
+	#ifdef __GCCE__
+	addr+=gcce_relocated_code_offset(addr);
+	#endif
   int offset = addr-(int)out-8;
   if (offset < -33554432 || offset >= 33554432) {
     SysPrintf("genjmp: out of range: %08x\n", offset);

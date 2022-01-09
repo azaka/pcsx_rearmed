@@ -12,3 +12,6 @@
 #ifdef VITA
 #define BASE_ADDR_DYNAMIC 1
 #endif
+#ifdef __GCCE__
+#define BASE_ADDR_DYNAMIC 1
+#endif
